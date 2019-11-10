@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ./partials/head %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scripts/autocomplete.js"></script>
+    <link rel="stylesheet" href="stylesheets/autocomplete.css">
+    <link href="stylesheets/summernote.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var jsonData = [];
+            var tech = 'qualityassurance,javascript,react,devops,crypto,elasticsearch,firebase,java,symfony,php,laravel,dotnet,c,cplusplus,csharp,nodejs,cloud,clojure,groovy,haskell,css,ios,chatbot,html,nosql,sql,postgres,python,emberjs,scala,angularjs,meteorjs,drupal,bootstrap,phonegap,mongodb,ruby,seo,mobile,machinelearning,aws,gamedev,android,objectivec,design,heroku,linode,apache,nginx,illustrator,photoshop,vuejs'.split(',');
+            for (var i = 0; i < tech.length; i++) jsonData.push({ id: i, name: tech[i] });
+            $('#tech').tagSuggest({
+                data: jsonData,
+                sortOrder: 'name',
+                name: 'tech',
+                valueField: 'name',
+                maxSelection: 3
+
+            });
+            $('#description').summernote({
+                height: 100,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+
+    </script>
+    <style>
+        .title{
+    font-size: 2.1em;
+    font-weight: 600;
+    text-align: center;
+    }
+    .price-tag{
+        background: aliceblue;
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #dfeaf3;
+    margin-top: 3em;
+    font-weight: 500;
+}
+</style>
+    <% include ./partials/header %>
+
+</head>
+
+<body class="blank">
+    <section class="section">
+
+        <div class="container">
+            <div class="intro-columns">
+                <div class="intro-column">
+                    <article class="content">
+                        <div class="title">Hire the best women in tech, design, marketing and more</div>
+                        <div class="price-tag">Super special discount! 1 job post for 30 days is $49 (usualy $99)
+
+                        </div>
+                    </article>
+
+                    <form action="submitJob" method="POST">
+                        <div class="field">
+                            <label class="label" for="jobTitle">Job Title</label>
+                            <div class="control"> <input type="text" class="input" name="jobTitle" id="jobTitle"
+                                    required placeholder="Job Title">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="tech">Tech</label>
+                            <div class="control">
+                                <input type="text" class="input" id="tech" name="tech">
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="description">Description</label>
+                            <div class="control"> <textarea class="textarea" id="description" required name="description"></textarea></div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="companyName">Company Name</label>
+                            <div class="control"> <input type="text" class="input" id="companyName" required name="companyName"></div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="applyUrl">Apply url</label>
+                            <div class="control"> <input type="text" class="input" id="applyUrl" required name="applyUrl"></div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="email">Contact email</label>
+                            <div class="control"> <input type="email" class="input" name="email" id="email"
+                                    aria-describedby="emailHelp" required placeholder="Enter email"></div>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email.</small>
+                        </div>
+
+                        <div class="control">
+                            <button type="submit" class="button is-primary is-medium"><strong>Post job</strong></button></div>
+                    </form>
+                </div>
+    </section>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129309672-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-129309672-1');
+    </script>
+</body>
+
+</html>

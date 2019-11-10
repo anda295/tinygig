@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ./partials/head %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scripts/autocomplete.js"></script>
+    <link rel="stylesheet" href="stylesheets/autocomplete.css">
+    <script>
+        $(document).ready(function () {
+            var jsonData = [];
+            var tech = 'qualityassurance,javascript,react,devops,crypto,elasticsearch,firebase,java,symfony,php,laravel,dotnet,c,cplusplus,csharp,nodejs,cloud,clojure,groovy,haskell,css,ios,chatbot,html,nosql,sql,postgres,python,emberjs,scala,angularjs,meteorjs,drupal,bootstrap,phonegap,mongodb,ruby,seo,mobile,machinelearning,aws,gamedev,android,objectivec,design,heroku,linode,apache,nginx,illustrator,photoshop,vuejs'.split(',');
+            for (var i = 0; i < tech.length; i++) jsonData.push({ id: i, name: tech[i] });
+            $('#tech').tagSuggest({
+                data: jsonData,
+                sortOrder: 'name',
+                name: 'tech',
+                valueField: 'name',
+                maxSelection: 3
+            });
+        });
+    </script>
+            <% include ./partials/header %>
+
+</head>
+
+<body class="blank">
+    <section class="section">
+        <div class="container">
+            <div class="intro-columns">
+                <div class="intro-column">
+                    <!-- <h1 class="title intro-title ">
+
+                        <a href="/" class="logo-title"> <strong>TinyGigs</strong></a> 
+                        <span class="sign"> Work on a project</span></h1> -->
+                    <article class="content">
+                        So you're looking to work on remote based projects? Amazing! Just tell me a bit about yourself
+                        and I'm gonna reach out as soon as posible! </article>
+                    <form action="workonproj" method="POST">
+                        <div class="field">
+                            <label class="label" for="name">Name</label>
+                            <div class="control">
+                                <input type="text" class="input" id="name" placeholder="Name" name="name" required value="<%= data.name %>" ></div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="email">Email address</label>
+                            <div class="control">
+                                <input type="email" class="input <%= errors.email ? 'is-danger' : '' %>" name="email" id="email" aria-describedby="emailHelp"
+                                    placeholder="Enter email" required value="<%= data.email %>" >
+                            </div>
+                             <small id="emailHelp" class="form-text text-muted">We'll never share your email.</small>
+                             <% if (errors.email) { %>
+                                <p class="help is-danger"><%= errors.email %></p>
+                              <% } %>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="tagLine">Tech</label>
+                            <div class="control">
+                                <input type="text" class="input" id="tech" name="tech" value="<%= data.tech %>"  required></div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="workType">Looking for</label>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="workType" value="FullTime" >
+                                    Full time job
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="workType" value="ProjectBased" checked>
+                                    Projects only
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="projects">Projects</label>
+                            <div class="control">
+                                <textarea class="textarea" id="projects" aria-describedby="projectsHelp" name="projects"  required><%= data.projects %></textarea>
+                            </div><small id="projectsHelp" class="form-text text-muted">Add links to the projects
+                                you`re most proud of.</small>
+
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button  is-warning is-medium"><strong>Get an invite</strong></button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129309672-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-129309672-1');
+</script>
+</body>
+
+</html>

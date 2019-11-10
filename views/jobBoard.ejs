@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ./partials/head %>
+
+    <style>
+        #loading {
+            text-align: center;
+        }
+
+        .items {
+            padding-top: 2em;
+
+        }
+
+        .items li {
+            border-bottom: 1px solid #dfe0e1;
+            padding: 20px;
+
+        }
+
+        @media only screen and (min-width : 1224px) {
+            .items {
+                width: 60%;
+                margin: auto !important;
+            }
+        }
+
+        .item-company {
+            font-size: 0.9rem;
+            padding-top: 0.5em;
+
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: black;
+            text-transform: capitalize;
+        }
+
+        .item-img {
+            height: 60px;
+            width: 60px;
+            background: #EEE;
+            text-indent: -300px;
+            overflow: hidden;
+            border-radius: 5px;
+            background-size: cover;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            margin-right: 18px;
+        }
+
+        .item-info {
+            list-style: none;
+            justify-content: center;
+        }
+
+        .item-info li {
+            border-right: 1px solid #dfe0e1;
+        }
+
+        .item-info li:last-child {
+            border-right: none;
+        }
+
+        .tech-tag {
+            padding: 0.2rem 0.4rem;
+            margin-right: 0.5rem;
+            text-transform: capitalize;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid;
+            font-weight: 100;
+            cursor: pointer;
+        }
+
+        .tech-tag:last-child {
+            margin-right: 2rem;
+        }
+
+        .item-content {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .add-job {
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            display: flex;
+            border-top: 2px solid #f5f5f5;
+            border-bottom: 2px solid #f5f5f5;
+            color: #000;
+        }
+
+        .add-job span {
+            margin-right: 10px;
+            font-size: 1.5em;
+
+        }
+
+        .section {
+            padding: 0;
+        }
+
+        .board {
+            text-align: center;
+            padding: 3em 1.5em;
+
+        }
+
+        .post-time {
+            font-weight: 200;
+            color: black;
+            font-size: 0.9rem;
+        }
+
+        .capitalize {
+            text-transform: capitalize;
+        }
+        @media only screen and (max-device-width : 600px){
+            .item-content {
+            display: block;
+            justify-content: normal;
+            margin-right: 0.5em;
+
+        }
+        }
+    </style>
+    <% include ./partials/header %>
+
+</head>
+
+<body class="blank">
+    <section class="section">
+        <article class="board">
+            <% if(jobName && jobName.length>0){ %>
+            <div class="board-title"> <span class="capitalize">
+                    <%= jobName %></span> jobs</div>
+
+            <%} else{ %>
+            <div class="board-title">The best place for women makers to find the best jobs</div>
+            <div class="board-subtitle">TinyGigs helps talentated women makers to find relevant jobs in tech</div>
+
+            <% } %>
+        </article>
+        <div class="add-job">
+            <% if(jobName && jobName.length>0){ %>
+            <span> Need help with
+                <%= jobName %> ?</span>
+
+            <%} else{ %>
+            <span>Want to reach an amazing community of women makers?</span>
+            <% } %>
+            <strong><a href="/job" class="button is-warning ">Post a job</a></strong>
+        </div>
+        <ul class="items" id="jobList">
+            <% jobs.forEach(function(job) { %>
+            <li class="list-item">
+                <div class="item-logo ">
+                    <div style="background-image: url( <%= job.logoUrl %> )" class="item-img"></div>
+                </div>
+                <div class="item-content">
+
+                    <div class=" item-details">
+                        <a href='/job/<%= job.id %>' class="item-title">
+                            <%= job.jobTitle %>
+                        </a>
+                        <h4 class="item-company">
+                            <%= job.companyName %>
+                        </h4>
+
+                    </div>
+
+                    <div class="item-tech">
+                        <% job.tech.forEach(function(tag){%>
+
+                        <span class="tech-tag">
+                            <%= tag %> </span>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="post-time">
+                    <%= job.date %>
+                </div>
+            </li>
+            <% }); %>
+        </ul>
+        <p id="loading">
+            <img src="/loading.gif" alt="Loading…" />
+        </p>
+
+
+    </section>
+    <script>
+
+        displayLoading = (display) => {
+            document.getElementById('loading').style.display = display;
+        }
+        displayLoading("none");
+
+        tagSelect = () => {
+            [...document.querySelectorAll(".tech-tag")].forEach(el => {
+                el.addEventListener('click', (tag) => {
+                    this.selectTag = tag.target.innerHTML.trim();
+                    let url = "/jobBoard?tag=" + this.selectTag;
+                    window.location.assign(url);
+                });
+            });
+        }
+        tagSelect();
+        let stopScrolling = false;
+        let pageNo = 0;
+        let getJobTemplate = (job) => {
+            let tags = "";
+            job.tech.forEach(tag => {
+                tags += "<span class='tech-tag'>" + tag + " </span>"
+            });
+            return "<li class='list-item'>" +
+                " <div class='item-logo '>" +
+                " <div style='background-image: url(" + job.logoUrl + " )' class='item-img'></div>" +
+                " </div>" +
+                " <div class='item-content'>" +
+                " <div class='item-details'>" +
+                " <a href='/job/" + job.id + "' class='item-title'>" + job.jobTitle + "</a>" +
+                " <h4 class='item-company'>" + job.companyName + "</h4>" +
+                "</div>" +
+                " <div class='item-tech'>" + tags + " </div>" +
+                " </div>" +
+                "<div class='post-time'>" + job.date + "  </div>" +
+                " </li>";
+        }
+
+        let loadJobs = () => {
+            let tag = '';
+            if (window.location.search) {
+                tag = window.location.search.replace('?', "&");
+            }
+            fetch(window.location.origin + "/jobsPaginated?page=" + pageNo + tag).then(function (response) {
+                return response.json();
+            }).then(data => {
+                displayLoading("none");
+                if (data.length < 4) {
+                    stopScrolling = true;
+                }
+                // tagSelect();
+                let jobslis = "";
+                data.forEach(job => {
+                    jobslis += getJobTemplate(job);
+                });
+                document.getElementById("jobList").innerHTML += jobslis;
+                tagSelect();
+            });
+        }
+        // window.addEventListener('scroll', function () {
+        //     if (!stopScrolling && document.body.clientHeight - window.innerHeight == window.scrollY) {
+        //         pageNo += 1;
+        //         loadJobs();
+        //     }
+        // });
+
+
+
+
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129309672-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-129309672-1');
+
+        document.quer
+    </script>
+</body>
+
+</html>
