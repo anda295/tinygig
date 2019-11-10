@@ -8,7 +8,7 @@
     "ejs": "~0.8.5",
     "express": "~3.4.4",
     "jscroll": "^2.4.1",
-    "mongoose": "4.11.4",
+    "mongoose": "5.7.9",
     "nexmo": "^2.0.2",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
