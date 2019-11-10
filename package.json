@@ -6,7 +6,7 @@
     "bulma": "^0.7.2",
     "connect-flash": "~0.1.1",
     "ejs": "~0.8.5",
-    "express": "~3.4.4",
+    "express": "~4.17.1",
     "jscroll": "^2.4.1",
     "mongoose": "4.11.4",
     "nexmo": "^2.0.2",
